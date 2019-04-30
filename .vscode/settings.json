@@ -1,0 +1,13 @@
+{
+  "cSpell.ignorePaths": [
+    "**/utils",
+    "package.json",
+    "**/.eslintrc.js"
+    // "**/public",
+    // "**/src/index.css"
+  ],
+  "cSpell.words": [
+    "AUTHED"
+  ],
+  "eslint.autoFixOnSave": true
+}
