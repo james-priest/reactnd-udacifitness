@@ -22,9 +22,14 @@ module.exports = {
   ],
   "plugins": [
     "react",
-    "jsx-a11y",
+    // "jsx-a11y",
     "prettier"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     // "func-names": "off",
     // "linebreak-style": "off",
