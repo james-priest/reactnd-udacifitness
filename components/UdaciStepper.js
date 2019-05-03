@@ -5,7 +5,7 @@ export default class UdaciStepper extends Component {
   render() {
     return (
       <View>
-        <Text> UdaciStepper </Text>
+        <Text style={{ fontSize: 20 }}> UdaciStepper </Text>
       </View>
     );
   }
