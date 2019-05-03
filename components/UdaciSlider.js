@@ -5,7 +5,7 @@ export default class UdaciSlider extends Component {
   render() {
     return (
       <View>
-        <Text> UdaciSlider </Text>
+        <Text style={{ fontSize: 20 }}> UdaciSlider </Text>
       </View>
     );
   }
