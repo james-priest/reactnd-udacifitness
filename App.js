@@ -22,9 +22,14 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.btn} onPress={this.handlePress}>
-          <Text style={styles.btnText}>Touchable Highlight</Text>
-        </TouchableOpacity>
+        <TouchableNativeFeedback
+          onPress={this.handlePress}
+          background={TouchableNativeFeedback.SelectableBackground()}
+        >
+          <View style={styles.btn}>
+            <Text style={styles.btnText}>Touchable Highlight</Text>
+          </View>
+        </TouchableNativeFeedback>
       </View>
     );
   }
