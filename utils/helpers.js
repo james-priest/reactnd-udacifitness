@@ -62,7 +62,7 @@ export const getMetricMetaInfo = metric => {
       getIcon() {
         return (
           <View>
-            <MaterialIcons name="directions-run" color={'black'} size={35} />
+            <MaterialIcons name="directions-run" color={'green'} size={65} />
           </View>
         );
       }
@@ -76,7 +76,7 @@ export const getMetricMetaInfo = metric => {
       getIcon() {
         return (
           <View>
-            <MaterialCommunityIcons name="bike" color={'red'} size={35} />
+            <MaterialCommunityIcons name="bike" color={'red'} size={65} />
           </View>
         );
       }
@@ -90,7 +90,7 @@ export const getMetricMetaInfo = metric => {
       getIcon() {
         return (
           <View>
-            <MaterialCommunityIcons name="swim" color={'black'} size={35} />
+            <MaterialCommunityIcons name="swim" color={'blue'} size={65} />
           </View>
         );
       }
@@ -104,7 +104,7 @@ export const getMetricMetaInfo = metric => {
       getIcon() {
         return (
           <View>
-            <FontAwesome name="bed" color={'black'} size={35} />
+            <FontAwesome name="bed" color={'black'} size={65} />
           </View>
         );
       }
@@ -118,7 +118,7 @@ export const getMetricMetaInfo = metric => {
       getIcon() {
         return (
           <View>
-            <MaterialCommunityIcons name="food" color={'black'} size={35} />
+            <MaterialCommunityIcons name="food" color={'orange'} size={65} />
           </View>
         );
       }
