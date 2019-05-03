@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginLeft: 10,
     marginRight: 10,
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center'
   }
 });
