@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import {
+  getMetricMetaInfo,
+  timeToString,
+  getDailyReminderValue
+} from '../utils/helpers';
 import UdaciSlider from './UdaciSlider';
 import UdaciStepper from './UdaciStepper';
 import DateHeader from './DateHeader';
 import { Ionicons } from '@expo/vector-icons';
 import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
+import { connect } from 'react-redux';
+import { addEntry } from '../actions';
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -20,9 +26,10 @@ SubmitBtn.propTypes = {
   onPress: PropTypes.func.isRequired
 };
 
-export default class AddEntry extends Component {
+class AddEntry extends Component {
   static propTypes = {
-    alreadyLogged: PropTypes.bool
+    alreadyLogged: PropTypes.bool,
+    addEntry: PropTypes.func.isRequired
   };
   state = {
     run: 0,
@@ -65,6 +72,9 @@ export default class AddEntry extends Component {
     const entry = this.state;
 
     // Update Redux
+    this.props.addEntry({
+      [key]: entry
+    });
 
     this.setState({
       run: 0,
@@ -84,6 +94,9 @@ export default class AddEntry extends Component {
     const key = timeToString();
 
     // Update Redux
+    this.props.addEntry({
+      [key]: getDailyReminderValue()
+    });
 
     // Route to Home
 
@@ -133,3 +146,16 @@ export default class AddEntry extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const key = timeToString();
+
+  return {
+    alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  { addEntry }
+)(AddEntry);
