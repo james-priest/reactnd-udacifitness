@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, StyleSheet } from 'react-native';
+import purple from '../utils/colors';
 
 const DateHeader = ({ date }) => {
   return <Text style={styles.dateText}>{date}</Text>;
@@ -12,7 +13,8 @@ DateHeader.propTypes = {
 
 const styles = StyleSheet.create({
   dateText: {
-    fontSize: 30
+    fontSize: 25,
+    color: purple
   }
 });
 
