@@ -21,7 +21,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
           {/* <AddEntry /> */}
           <History />
         </View>
@@ -32,7 +32,8 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: 20
     // backgroundColor: '#fff',
     // marginLeft: 10,
     // marginRight: 10,
