@@ -14,6 +14,7 @@ import { fetchCalendarResults } from '../utils/api';
 import UdaciFitnessCalendar from 'udacifitness-calendar';
 import { white } from '../utils/colors';
 import DateHeader from '../components/DateHeader';
+import MetricCard from './MetricCard';
 
 export class History extends Component {
   static propTypes = {
@@ -44,7 +45,7 @@ export class History extends Component {
         </View>
       ) : (
         <TouchableOpacity onPress={() => console.log('Pressed!')}>
-          <Text>{JSON.stringify(metrics)}</Text>
+          <MetricCard date={formattedDate} metrics={metrics} />
         </TouchableOpacity>
       )}
     </View>
@@ -53,7 +54,9 @@ export class History extends Component {
     return (
       <View style={styles.item}>
         <DateHeader date={formattedDate} />
-        <Text style={styles.noDataText}>You didn't log any data this day</Text>
+        <Text style={styles.noDataText}>
+          You didn&apos;t log any data this day
+        </Text>
       </View>
     );
   }
