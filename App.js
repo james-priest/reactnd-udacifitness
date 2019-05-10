@@ -15,7 +15,7 @@ const store = createStore(
 export default class App extends React.Component {
   componentDidMount() {
     console.log('begin');
-    debugger;
+    // debugger;
     console.log('end');
   }
   render() {

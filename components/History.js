@@ -15,11 +15,15 @@ import UdaciFitnessCalendar from 'udacifitness-calendar';
 import { white } from '../utils/colors';
 import DateHeader from '../components/DateHeader';
 import MetricCard from './MetricCard';
+import { AppLoading } from 'expo';
 
 export class History extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     entries: PropTypes.object.isRequired
+  };
+  state = {
+    ready: false
   };
   componentDidMount() {
     const { dispatch } = this.props;
@@ -34,7 +38,8 @@ export class History extends Component {
             })
           );
         }
-      });
+      })
+      .then(() => this.setState({ ready: true }));
   }
   renderItem = ({ today, ...metrics }, formattedDate, key) => (
     <View style={styles.item}>
@@ -62,6 +67,12 @@ export class History extends Component {
   }
   render() {
     const { entries } = this.props;
+    const { ready } = this.state;
+
+    if (ready === false) {
+      return <AppLoading />;
+    }
+
     return (
       <UdaciFitnessCalendar
         items={entries}
