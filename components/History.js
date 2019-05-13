@@ -15,12 +15,18 @@ import UdaciFitnessCalendar from 'udacifitness-calendar';
 import { white } from '../utils/colors';
 import DateHeader from '../components/DateHeader';
 import MetricCard from './MetricCard';
-import { AppLoading } from 'expo';
+import { AppLoading, Icon } from 'expo';
 
 export class History extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     entries: PropTypes.object.isRequired
+  };
+  static navigationOptions = {
+    tabBarLabel: 'History',
+    tabBarIcon: ({ tintColor }) => (
+      <Icon.Ionicons name="ios-bookmarks" size={30} color={tintColor} />
+    )
   };
   state = {
     ready: false

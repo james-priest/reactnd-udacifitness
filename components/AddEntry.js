@@ -15,7 +15,7 @@ import {
 import UdaciSlider from './UdaciSlider';
 import UdaciStepper from './UdaciStepper';
 import DateHeader from './DateHeader';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from 'expo';
 import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
 import { connect } from 'react-redux';
@@ -42,6 +42,12 @@ class AddEntry extends Component {
   static propTypes = {
     alreadyLogged: PropTypes.bool,
     addEntry: PropTypes.func.isRequired
+  };
+  static navigationOptions = {
+    tabBarLabel: 'Add Entry',
+    tabBarIcon: ({ tintColor }) => (
+      <Icon.FontAwesome name="plus-square" size={30} color={tintColor} />
+    )
   };
   state = {
     run: 0,
@@ -120,7 +126,7 @@ class AddEntry extends Component {
     if (this.props.alreadyLogged) {
       return (
         <View style={styles.center}>
-          <Ionicons
+          <Icon.Ionicons
             name={Platform.OS === 'ios' ? 'ios-happy' : 'md-happy'}
             size={100}
           />
