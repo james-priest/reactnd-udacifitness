@@ -22,12 +22,6 @@ export class History extends Component {
     dispatch: PropTypes.func.isRequired,
     entries: PropTypes.object.isRequired
   };
-  static navigationOptions = {
-    tabBarLabel: 'History',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon.Ionicons name="ios-bookmarks" size={30} color={tintColor} />
-    )
-  };
   state = {
     ready: false
   };
