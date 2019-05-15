@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
+import { Icon } from 'expo';
 import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator
@@ -8,64 +9,65 @@ import History from '../components/History';
 import AddEntry from '../components/AddEntry';
 import { purple, white } from '../utils/colors';
 
-// export default
-const android = createMaterialTopTabNavigator(
-  {
-    History: History,
-    AddEntry: AddEntry
-  },
-  {
+const isIOS = Platform.OS === 'ios' ? true : false;
+
+const routeConfigs = {
+  History: {
+    screen: History,
     navigationOptions: {
-      header: null
-    },
-    defaultNavigationOptions: {
-      bounces: true
-    },
-    tabBarOptions: {
-      activeTintColor: Platform.OS === 'ios' ? purple : white,
-      style: {
-        height: 70,
-        backgroundColor: Platform.OS === 'ios' ? white : purple,
-        shadowColor: 'rgba(0,0,0, 0.24)',
-        shadowOffset: {
-          width: 0,
-          height: 3
-        },
-        shadowRadius: 6,
-        shadowOpacity: 1
-      },
-      tabStyle: {
-        marginTop: 5
-      },
-      showIcon: true
+      tabBarLabel: 'History',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon.Ionicons
+          name={isIOS ? 'ios-bookmarks' : 'md-bookmarks'}
+          size={30}
+          color={tintColor}
+        />
+      )
+    }
+  },
+  AddEntry: {
+    screen: AddEntry,
+    navigationOptions: {
+      tabBarLabel: 'Add Entry',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon.FontAwesome name="plus-square" size={30} color={tintColor} />
+      )
     }
   }
-);
+};
 
-const ios = createBottomTabNavigator(
-  {
-    History: History,
-    AddEntry: AddEntry
+const tabNavigatorConfig = {
+  navigationOptions: {
+    header: null
   },
-  {
-    navigationOptions: {
-      header: null
+  defaultNavigationOptions: {
+    bounces: true
+  },
+  tabBarOptions: {
+    activeTintColor: isIOS ? purple : white,
+    style: {
+      height: isIOS ? 56 : 70,
+      backgroundColor: isIOS ? white : purple,
+      shadowColor: 'rgba(0,0,0, 0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
+      shadowRadius: 6,
+      shadowOpacity: 1
     },
-    tabBarOptions: {
-      activeTintColor: Platform.OS === 'ios' ? purple : white,
-      style: {
-        height: 56,
-        backgroundColor: Platform.OS === 'ios' ? white : purple,
-        shadowColor: 'rgba(0,0,0, 0.24)',
-        shadowOffset: {
-          width: 0,
-          height: 3
-        },
-        shadowRadius: 6,
-        shadowOpacity: 1
-      }
-    }
+    labelStyle: {
+      fontSize: isIOS ? 11 : 12
+    },
+    tabStyle: {
+      marginTop: isIOS ? 0 : 5
+    },
+    showIcon: true
   }
-);
+};
 
-export default (Platform.OS === 'ios' ? ios : android);
+const Tabs = isIOS
+  ? createBottomTabNavigator(routeConfigs, tabNavigatorConfig)
+  : createMaterialTopTabNavigator(routeConfigs, tabNavigatorConfig);
+
+export default Tabs;

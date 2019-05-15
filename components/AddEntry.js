@@ -43,12 +43,6 @@ class AddEntry extends Component {
     alreadyLogged: PropTypes.bool,
     addEntry: PropTypes.func.isRequired
   };
-  static navigationOptions = {
-    tabBarLabel: 'Add Entry',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon.FontAwesome name="plus-square" size={30} color={tintColor} />
-    )
-  };
   state = {
     run: 0,
     bike: 0,
