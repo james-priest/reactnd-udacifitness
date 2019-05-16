@@ -21,6 +21,7 @@ import { submitEntry, removeEntry } from '../utils/api';
 import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
+import { withNavigation } from 'react-navigation';
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -41,7 +42,8 @@ SubmitBtn.propTypes = {
 class AddEntry extends Component {
   static propTypes = {
     alreadyLogged: PropTypes.bool,
-    addEntry: PropTypes.func.isRequired
+    addEntry: PropTypes.func.isRequired,
+    navigation: PropTypes.object
   };
   state = {
     run: 0,
@@ -96,11 +98,9 @@ class AddEntry extends Component {
       eat: 0
     });
 
-    // Navigate to home
+    this.toHome();
 
     submitEntry({ key, entry });
-
-    // Clear local notification
   };
   reset = () => {
     const key = timeToString();
@@ -111,8 +111,13 @@ class AddEntry extends Component {
     });
 
     // Route to Home
+    this.toHome();
 
     removeEntry(key);
+  };
+  toHome = () => {
+    // this.props.navigation.navigate('Home');
+    this.props.navigation.goBack();
   };
   render() {
     const metaInfo = getMetricMetaInfo();
@@ -216,7 +221,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { addEntry }
-)(AddEntry);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    { addEntry }
+  )(AddEntry)
+);
