@@ -20,7 +20,8 @@ import { AppLoading, Icon } from 'expo';
 export class History extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    entries: PropTypes.object.isRequired
+    entries: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired
   };
   state = {
     ready: false
@@ -49,7 +50,11 @@ export class History extends Component {
           <Text style={styles.noDataText}>{today}</Text>
         </View>
       ) : (
-        <TouchableOpacity onPress={() => console.log('Pressed!')}>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('EntryDetail', { entryId: key })
+          }
+        >
           <MetricCard date={formattedDate} metrics={metrics} />
         </TouchableOpacity>
       )}
