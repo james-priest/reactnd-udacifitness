@@ -9,6 +9,7 @@ import {
 import History from '../components/History';
 import AddEntry from '../components/AddEntry';
 import EntryDetail from '../components/EntryDetail';
+import Live from '../components/Live';
 import { purple, white } from '../utils/colors';
 
 const isIOS = Platform.OS === 'ios' ? true : false;
@@ -33,6 +34,19 @@ const routeConfigs = {
       tabBarLabel: 'Add Entry',
       tabBarIcon: ({ tintColor }) => (
         <Icon.FontAwesome name="plus-square" size={30} color={tintColor} />
+      )
+    }
+  },
+  Live: {
+    screen: Live,
+    navigationOptions: {
+      tabBarLabel: 'Live',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon.Ionicons
+          name={isIOS ? 'ios-speedometer' : 'md-speedometer'}
+          size={30}
+          color={tintColor}
+        />
       )
     }
   }
