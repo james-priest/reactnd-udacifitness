@@ -3,10 +3,12 @@ import { Platform } from 'react-native';
 import { Icon } from 'expo';
 import {
   createBottomTabNavigator,
-  createMaterialTopTabNavigator
+  createMaterialTopTabNavigator,
+  createStackNavigator
 } from 'react-navigation';
 import History from '../components/History';
 import AddEntry from '../components/AddEntry';
+import EntryDetail from '../components/EntryDetail';
 import { purple, white } from '../utils/colors';
 
 const isIOS = Platform.OS === 'ios' ? true : false;
@@ -70,4 +72,20 @@ const Tabs = isIOS
   ? createBottomTabNavigator(routeConfigs, tabNavigatorConfig)
   : createMaterialTopTabNavigator(routeConfigs, tabNavigatorConfig);
 
-export default Tabs;
+const MainNavigator = createStackNavigator({
+  Home: {
+    screen: Tabs
+  },
+  EntryDetail: {
+    screen: EntryDetail,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+        // height: 20
+      }
+    }
+  }
+});
+
+export default MainNavigator;

@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
 });
 
 MetricCard.propTypes = {
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   metrics: PropTypes.object.isRequired
 };
