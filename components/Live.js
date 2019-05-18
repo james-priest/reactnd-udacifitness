@@ -15,11 +15,13 @@ export default class Live extends Component {
   state = {
     coords: null,
     status: null,
-    direction: ''
+    direction: '',
+    heading: null
   };
   componentDidMount() {
     Permissions.getAsync(Permissions.LOCATION)
       .then(({ status }) => {
+        console.log('status', status);
         if (status === 'granted') {
           return this.setLocation();
         }
@@ -43,26 +45,33 @@ export default class Live extends Component {
       .catch(error => console.warn('Error asking Location permission:', error));
   };
   setLocation = () => {
+    Location.watchHeadingAsync(heading => {
+      const newDirection = calculateDirection(heading.magHeading);
+      console.log('heading', heading);
+
+      this.setState({
+        heading,
+        direction: newDirection
+      });
+    });
     Location.watchPositionAsync(
       {
-        enableHighAccuracy: true,
-        timeInterval: 1,
+        accuracy: Location.Accuracy.Highest,
+        timeInterval: 1000,
         distanceInterval: 1
       },
       ({ coords }) => {
-        const newDirection = calculateDirection(coords.heading);
-        // console.log('coords:', coords);
+        console.log('coords:', coords);
 
         this.setState(() => ({
           coords,
-          status: 'granted',
-          direction: newDirection
+          status: 'granted'
         }));
       }
     );
   };
   render() {
-    const { status, coords, direction } = this.state;
+    const { status, coords, direction, heading } = this.state;
 
     if (status === null) {
       return <ActivityIndicator style={{ marginTop: 30 }} />;
@@ -100,6 +109,12 @@ export default class Live extends Component {
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You&apos;re heading</Text>
           <Text style={styles.direction}>{direction}</Text>
+        </View>
+        <View>
+          <Text>Coords: {JSON.stringify(this.state.coords)}</Text>
+        </View>
+        <View>
+          <Text>Heading: {JSON.stringify(this.state.heading)}</Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
