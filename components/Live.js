@@ -4,7 +4,8 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Animated
 } from 'react-native';
 import { Icon } from 'expo';
 import { purple, white } from '../utils/colors';
@@ -15,8 +16,9 @@ export default class Live extends Component {
   state = {
     coords: null,
     status: null,
-    direction: '',
-    heading: null
+    direction: 'North',
+    heading: null,
+    bounceValue: new Animated.Value(1)
   };
   componentDidMount() {
     Permissions.getAsync(Permissions.LOCATION)
@@ -46,8 +48,17 @@ export default class Live extends Component {
   };
   setLocation = () => {
     Location.watchHeadingAsync(heading => {
+      // console.log('heading', heading);
+
       const newDirection = calculateDirection(heading.magHeading);
-      console.log('heading', heading);
+      const { direction, bounceValue } = this.state;
+
+      if (newDirection !== direction) {
+        Animated.sequence([
+          Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+          Animated.spring(bounceValue, { toValue: 1, friction: 4 })
+        ]).start();
+      }
 
       this.setState({
         heading,
@@ -61,7 +72,7 @@ export default class Live extends Component {
         distanceInterval: 1
       },
       ({ coords }) => {
-        console.log('coords:', coords);
+        // console.log('coords:', coords);
 
         this.setState(() => ({
           coords,
@@ -71,7 +82,7 @@ export default class Live extends Component {
     );
   };
   render() {
-    const { status, coords, direction, heading } = this.state;
+    const { status, coords, direction, heading, bounceValue } = this.state;
 
     if (status === null) {
       return <ActivityIndicator style={{ marginTop: 30 }} />;
@@ -108,13 +119,17 @@ export default class Live extends Component {
       <View style={styles.container}>
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You&apos;re heading</Text>
-          <Text style={styles.direction}>{direction}</Text>
+          <Animated.Text
+            style={[styles.direction, { transform: [{ scale: bounceValue }] }]}
+          >
+            {direction}
+          </Animated.Text>
         </View>
         <View>
-          <Text>Coords: {JSON.stringify(this.state.coords)}</Text>
+          <Text>Coords: {JSON.stringify(coords)}</Text>
         </View>
         <View>
-          <Text>Heading: {JSON.stringify(this.state.heading)}</Text>
+          <Text>Heading: {JSON.stringify(heading)}</Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
