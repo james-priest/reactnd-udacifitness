@@ -8,6 +8,7 @@ import reducer from './reducers';
 import AppNavigator from './navigation/AppNavigator';
 import { Constants } from 'expo';
 import { purple } from './utils/colors';
+import { setLocalNotification } from './utils/helpers';
 
 const store = createStore(
   reducer /* preloadedState, */,
@@ -27,6 +28,9 @@ UdacityStatusBar.propTypes = {
 };
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={store}>

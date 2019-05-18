@@ -23,7 +23,7 @@ export default class Live extends Component {
   componentDidMount() {
     Permissions.getAsync(Permissions.LOCATION)
       .then(({ status }) => {
-        console.log('status', status);
+        // console.log('status', status);
         if (status === 'granted') {
           return this.setLocation();
         }
