@@ -4,7 +4,8 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Animated
 } from 'react-native';
 import { Icon } from 'expo';
 import { purple, white } from '../utils/colors';
@@ -15,11 +16,14 @@ export default class Live extends Component {
   state = {
     coords: null,
     status: null,
-    direction: ''
+    direction: 'North',
+    heading: null,
+    bounceValue: new Animated.Value(1)
   };
   componentDidMount() {
     Permissions.getAsync(Permissions.LOCATION)
       .then(({ status }) => {
+        console.log('status', status);
         if (status === 'granted') {
           return this.setLocation();
         }
@@ -43,26 +47,42 @@ export default class Live extends Component {
       .catch(error => console.warn('Error asking Location permission:', error));
   };
   setLocation = () => {
+    Location.watchHeadingAsync(heading => {
+      // console.log('heading', heading);
+
+      const newDirection = calculateDirection(heading.magHeading);
+      const { direction, bounceValue } = this.state;
+
+      if (newDirection !== direction) {
+        Animated.sequence([
+          Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+          Animated.spring(bounceValue, { toValue: 1, friction: 4 })
+        ]).start();
+      }
+
+      this.setState({
+        heading,
+        direction: newDirection
+      });
+    });
     Location.watchPositionAsync(
       {
-        enableHighAccuracy: true,
-        timeInterval: 1,
+        accuracy: Location.Accuracy.Highest,
+        timeInterval: 1000,
         distanceInterval: 1
       },
       ({ coords }) => {
-        const newDirection = calculateDirection(coords.heading);
         // console.log('coords:', coords);
 
         this.setState(() => ({
           coords,
-          status: 'granted',
-          direction: newDirection
+          status: 'granted'
         }));
       }
     );
   };
   render() {
-    const { status, coords, direction } = this.state;
+    const { status, coords, direction, heading, bounceValue } = this.state;
 
     if (status === null) {
       return <ActivityIndicator style={{ marginTop: 30 }} />;
@@ -99,7 +119,17 @@ export default class Live extends Component {
       <View style={styles.container}>
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You&apos;re heading</Text>
-          <Text style={styles.direction}>{direction}</Text>
+          <Animated.Text
+            style={[styles.direction, { transform: [{ scale: bounceValue }] }]}
+          >
+            {direction}
+          </Animated.Text>
+        </View>
+        <View>
+          <Text>Coords: {JSON.stringify(coords)}</Text>
+        </View>
+        <View>
+          <Text>Heading: {JSON.stringify(heading)}</Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
