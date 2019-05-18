@@ -9,6 +9,7 @@ import { white, red, orange, blue, lightPurp, pink } from './colors';
 import { Notifications, Permissions } from 'expo';
 
 const NOTIFICATION_KEY = 'UdaciFitness:notifications';
+const CHANNEL_ID = 'udaci1';
 
 export function isBetween(num, x, y) {
   if (num >= x && num <= y) {
@@ -150,24 +151,32 @@ export function getDailyReminderValue() {
 }
 
 export function clearLocalNotification() {
-  AsyncStorage.removeItem(NOTIFICATION_KEY).then(
+  return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
     Notifications.cancelAllScheduledNotificationsAsync
   );
 }
 
 function createNotification() {
   return {
-    title: 'Log you stats!',
+    title: 'Log your stats!',
     body: "👋 Don't forget to log your stats for today!",
     ios: {
       sound: true
     },
     android: {
-      sound: true,
-      priority: 'high',
+      channelId: CHANNEL_ID,
       sticky: false,
-      vibrate: true
+      color: 'red'
     }
+  };
+}
+
+function createChannel() {
+  return {
+    name: 'Daily Reminder',
+    description: 'Description of what this notification channel is...',
+    sound: true,
+    priority: 'high'
   };
 }
 
@@ -175,22 +184,35 @@ export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then(data => {
+      // if (true) {
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
+          // console.log('got in');
           if (status === 'granted') {
-            Notifications.cancelAllScheduledNotificationsAsync();
+            // Notifications.presentLocalNotificationAsync(createNotification());
+            Notifications.createChannelAndroidAsync(CHANNEL_ID, createChannel())
+              // .then(val => console.log('channel return:', val))
+              .then(() => {
+                Notifications.cancelAllScheduledNotificationsAsync();
 
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow.setHours(20);
-            tomorrow.setMinutes(0);
+                const tomorrow = new Date();
+                // 1 minute from now
+                // tomorrow.setTime(tomorrow.getTime() + 1 * 60000);
 
-            Notifications.scheduleLocalNotificationAsync(createNotification(), {
-              time: tomorrow,
-              repeat: 'day'
-            });
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(20);
+                tomorrow.setMinutes(0);
 
-            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+                Notifications.scheduleLocalNotificationAsync(
+                  createNotification(),
+                  {
+                    time: tomorrow,
+                    repeat: 'day'
+                  }
+                );
+
+                AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+              });
           }
         });
       }
