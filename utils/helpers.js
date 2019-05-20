@@ -196,12 +196,12 @@ export function setLocalNotification() {
                 Notifications.cancelAllScheduledNotificationsAsync();
 
                 const tomorrow = new Date();
-                // 1 minute from now
-                // tomorrow.setTime(tomorrow.getTime() + 1 * 60000);
+                // 2 minute from now
+                tomorrow.setTime(tomorrow.getTime() + 2 * 60000);
 
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(20);
-                tomorrow.setMinutes(0);
+                // tomorrow.setDate(tomorrow.getDate() + 1);
+                // tomorrow.setHours(20);
+                // tomorrow.setMinutes(0);
 
                 Notifications.scheduleLocalNotificationAsync(
                   createNotification(),
