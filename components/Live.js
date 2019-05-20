@@ -68,7 +68,7 @@ export default class Live extends Component {
     Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.Highest,
-        timeInterval: 1000,
+        timeInterval: 3000,
         distanceInterval: 1
       },
       ({ coords }) => {
