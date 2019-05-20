@@ -1,6 +1,8 @@
 {
   "expo": {
     "name": "UdaciFitness",
+    "description": "This is a hands-on project for Udacity's React Nanodegree program.",
+    "githubUrl": "https://github.com/james-priest/reactnd-udacifitness",
     "slug": "reactnd-udacifitness",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -8,13 +10,16 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/udacifitness-512.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "notification": {
+      "icon": "./assets/udacifitness-45.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +28,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.jamespriest.udacifitness"
+    },
+    "android": {
+      "package": "io.jamespriest.udacifitness"
     }
   }
 }
