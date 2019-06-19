@@ -74,6 +74,8 @@ export class History extends Component {
     const { entries } = this.props;
     const { ready } = this.state;
 
+    console.log('entries', entries);
+
     if (ready === false) {
       return <AppLoading />;
     }
