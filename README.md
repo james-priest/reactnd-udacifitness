@@ -14,7 +14,6 @@ It uses Geolocation and allows users to track activity in following categories:
 
 It was built as part of [Udacity's React Nanodegree program](https://www.udacity.com/course/react-nanodegree--nd019).
 
-- Live Demo: [UdaciFitness on Expo](https://expo.io/@james-priest/reactnd-udacifitness)
 - Course Notes: [Step-by-step walk-though of how this project was built](https://james-priest.github.io/udacity-nanodegree-react/course-notes/react-native.html)
 
 ## Installation
